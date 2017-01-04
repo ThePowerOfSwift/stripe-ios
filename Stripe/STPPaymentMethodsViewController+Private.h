@@ -12,6 +12,7 @@
 #import "STPBackendAPIAdapter.h"
 #import "STPPaymentMethodTuple.h"
 #import "STPPaymentConfiguration.h"
+#import "STPAddress.h"
 
 @interface STPPaymentMethodsViewController (Private)
 
@@ -19,6 +20,7 @@
                            apiAdapter:(id<STPBackendAPIAdapter>)apiAdapter
                        loadingPromise:(STPPromise<STPPaymentMethodTuple *> *)loadingPromise
                                 theme:(STPTheme *)theme
+                      shippingAddress:(STPAddress *)shippingAddress
                              delegate:(id<STPPaymentMethodsViewControllerDelegate>)delegate;
 
 @end

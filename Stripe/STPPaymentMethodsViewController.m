@@ -11,7 +11,7 @@
 #import "STPToken.h"
 #import "STPCard.h"
 #import "UIViewController+Stripe_ParentViewController.h"
-#import "STPAddCardViewController.h"
+#import "STPAddCardViewController+Private.h"
 #import "STPPaymentContext.h"
 #import "STPPaymentMethodTuple.h"
 #import "STPPaymentActivityIndicatorView.h"
@@ -33,6 +33,7 @@
 
 @property(nonatomic)STPPaymentConfiguration *configuration;
 @property(nonatomic)STPTheme *theme;
+@property(nonatomic)STPAddress *shippingAddress;
 @property(nonatomic)id<STPBackendAPIAdapter> apiAdapter;
 @property(nonatomic)STPAPIClient *apiClient;
 @property(nonatomic)STPPromise<STPPaymentMethodTuple *> *loadingPromise;
@@ -53,6 +54,7 @@
                             apiAdapter:paymentContext.apiAdapter
                         loadingPromise:paymentContext.currentValuePromise
                                  theme:paymentContext.theme
+                       shippingAddress:paymentContext.shippingAddress
                               delegate:paymentContext];
 }
 
@@ -88,6 +90,7 @@
                             apiAdapter:apiAdapter
                         loadingPromise:promise
                                  theme:theme
+                       shippingAddress:nil
                               delegate:delegate];
 }
 
@@ -108,13 +111,16 @@
         UIViewController *internal;
         if (tuple.paymentMethods.count > 0) {
             internal = [[STPPaymentMethodsInternalViewController alloc] initWithConfiguration:self.configuration
-                                                                                        theme:self.theme prefilledInformation:self.prefilledInformation
+                                                                                        theme:self.theme
+                                                                         prefilledInformation:self.prefilledInformation
+                                                                              shippingAddress:self.shippingAddress
                                                                            paymentMethodTuple:tuple
                                                                                      delegate:self];
         } else {
             STPAddCardViewController *addCardViewController = [[STPAddCardViewController alloc] initWithConfiguration:self.configuration theme:self.theme];
             addCardViewController.delegate = self;
             addCardViewController.prefilledInformation = self.prefilledInformation;
+            addCardViewController.shippingAddress = self.shippingAddress;
             internal = addCardViewController;
             
         }
@@ -232,11 +238,13 @@
                            apiAdapter:(id<STPBackendAPIAdapter>)apiAdapter
                        loadingPromise:(STPPromise<STPPaymentMethodTuple *> *)loadingPromise
                                 theme:(STPTheme *)theme
+                      shippingAddress:(STPAddress *)shippingAddress
                              delegate:(id<STPPaymentMethodsViewControllerDelegate>)delegate {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _configuration = configuration;
         _theme = theme;
+        _shippingAddress = shippingAddress;
         _apiClient = [[STPAPIClient alloc] initWithPublishableKey:configuration.publishableKey];
         _apiAdapter = apiAdapter;
         _loadingPromise = loadingPromise;

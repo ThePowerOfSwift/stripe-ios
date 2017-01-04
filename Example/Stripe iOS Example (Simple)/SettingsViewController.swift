@@ -30,7 +30,7 @@ class SettingsViewController: UITableViewController {
 
     private var theme: Theme = .Default
     private var applePay: Switch = .Enabled
-    private var requiredBillingAddressFields: RequiredBillingAddressFields = .None
+    private var requiredBillingAddressFields: RequiredBillingAddressFields = .Full
     private var requiredShippingAddressFields: RequiredShippingAddressFields = .PostalAddressPhone
     private var shippingType: ShippingType = .Shipping
     private var smsAutofill: Switch = .Enabled

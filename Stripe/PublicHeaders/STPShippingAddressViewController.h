@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param theme                     The theme to use to inform the view controller's visual appearance. @see STPTheme
  *  @param currency                  The currency to use when displaying amounts for shipping methods. The default is USD.
  *  @param shippingAddress           If set, the shipping address view controller will be pre-filled with this address. @see STPAddress
+ *  @param billingAddress            If set, the user will have the option to autofill with this address. @see STPAddress
  *  @param selectedShippingMethod    If set, the shipping methods view controller will use this method as the selected shipping method. If `selectedShippingMethod` is nil, the first shipping method in the array of methods returned by your delegate will be selected.
  *  @param prefilledInformation      If set, the shipping address view controller will be pre-filled with this information. @see STPUserInformation
  */
@@ -45,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
                                 theme:(STPTheme *)theme
                              currency:(nullable NSString *)currency
                       shippingAddress:(nullable STPAddress *)shippingAddress
+                       billingAddress:(nullable STPAddress *)billingAddress
                selectedShippingMethod:(nullable PKShippingMethod *)selectedShippingMethod
                  prefilledInformation:(nullable STPUserInformation *)prefilledInformation;
 

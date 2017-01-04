@@ -23,6 +23,7 @@
 #import "STPShippingMethodsViewController.h"
 #import "STPPaymentContext+Private.h"
 #import "UINavigationController+Stripe_Completion.h"
+#import "STPSectionHeaderView.h"
 
 @interface STPShippingAddressViewController ()<STPAddressViewModelDelegate, UITableViewDelegate, UITableViewDataSource, STPShippingMethodsViewControllerDelegate>
 @property(nonatomic)STPPaymentConfiguration *configuration;
@@ -37,19 +38,29 @@
 @property(nonatomic)BOOL loading;
 @property(nonatomic)STPPaymentActivityIndicatorView *activityIndicator;
 @property(nonatomic)STPAddressViewModel *addressViewModel;
+@property(nonatomic)STPAddress *billingAddress;
+@property(nonatomic)BOOL hasUsedBillingAddress;
+@property(nonatomic)STPSectionHeaderView *addressHeaderView;
 @end
 
 @implementation STPShippingAddressViewController
 
 - (instancetype)init {
-    return [self initWithConfiguration:[STPPaymentConfiguration sharedConfiguration] theme:[STPTheme defaultTheme] currency:nil shippingAddress:nil selectedShippingMethod:nil prefilledInformation:nil];
+    return [self initWithConfiguration:[STPPaymentConfiguration sharedConfiguration] theme:[STPTheme defaultTheme] currency:nil shippingAddress:nil billingAddress:nil selectedShippingMethod:nil prefilledInformation:nil];
 }
 
 - (instancetype)initWithPaymentContext:(STPPaymentContext *)paymentContext {
+    STPAddress *billingAddress = nil;
+    id<STPPaymentMethod> paymentMethod = paymentContext.selectedPaymentMethod;
+    if ([paymentMethod isKindOfClass:[STPCard class]]) {
+        STPCard *card = (STPCard *)paymentMethod;
+        billingAddress = [card address];
+    }
     STPShippingAddressViewController *instance = [self initWithConfiguration:paymentContext.configuration
                                                                        theme:paymentContext.theme
                                                                     currency:paymentContext.paymentCurrency
                                                              shippingAddress:paymentContext.shippingAddress
+                                                              billingAddress:billingAddress
                                                       selectedShippingMethod:paymentContext.selectedShippingMethod
                                                         prefilledInformation:paymentContext.prefilledInformation];
     instance.delegate = paymentContext;
@@ -60,6 +71,7 @@
                                 theme:(STPTheme *)theme
                              currency:(NSString *)currency
                       shippingAddress:(STPAddress *)shippingAddress
+                       billingAddress:(STPAddress *)billingAddress
                selectedShippingMethod:(PKShippingMethod *)selectedShippingMethod
                  prefilledInformation:(STPUserInformation *)prefilledInformation {
     self = [super initWithNibName:nil bundle:nil];
@@ -68,6 +80,8 @@
         _currency = currency ?: @"usd";
         _theme = theme;
         _selectedShippingMethod = selectedShippingMethod;
+        _billingAddress = billingAddress;
+        _hasUsedBillingAddress = NO;
         _addressViewModel = [[STPAddressViewModel alloc] initWithRequiredShippingFields:configuration.requiredShippingAddressFields];
         _addressViewModel.delegate = self;
         if (shippingAddress != nil) {
@@ -84,6 +98,16 @@
             }
             _addressViewModel.address = prefilledAddress;
         }
+        STPSectionHeaderView *headerView = [STPSectionHeaderView new];
+        headerView.theme = self.theme;
+        headerView.title = STPLocalizedString(@"Shipping Address", @"Title for shipping address entry section");
+        NSString *buttonTitle = STPLocalizedString(@"Use Billing Address", @"Button to fill shipping address from billing address");
+        [headerView.button setTitle:buttonTitle
+                           forState:UIControlStateNormal];
+        [headerView.button addTarget:self
+                              action:@selector(useBillingAddress:)
+                    forControlEvents:UIControlEventTouchUpInside];
+        _addressHeaderView = headerView;
 
         self.title = [self titleForShippingType:self.configuration.shippingType];
 
@@ -366,11 +390,29 @@
 }
 
 - (CGFloat)tableView:(__unused UITableView *)tableView heightForHeaderInSection:(__unused NSInteger)section {
-    return 0.01f;
+    [self updateAddressHeaderView];
+    CGSize size = [self.addressHeaderView sizeThatFits:CGSizeMake(self.view.bounds.size.width, CGFLOAT_MAX)];
+    return size.height;
 }
 
 - (UIView *)tableView:(__unused UITableView *)tableView viewForHeaderInSection:(__unused NSInteger)section {
-    return [UIView new];
+    [self updateAddressHeaderView];
+    return self.addressHeaderView;
+}
+
+- (void)updateAddressHeaderView {
+    BOOL buttonVisible = (!self.addressViewModel.isValid && self.billingAddress != nil && !self.hasUsedBillingAddress);
+    self.addressHeaderView.button.alpha = buttonVisible ? 1 : 0;
+    [self.addressHeaderView setNeedsLayout];
+}
+
+- (void)useBillingAddress:(UIButton *)sender {
+    self.addressViewModel.address = self.billingAddress;
+    self.hasUsedBillingAddress = YES;
+    [[self firstEmptyField] becomeFirstResponder];
+    [UIView animateWithDuration:0.2f animations:^{
+        sender.alpha = 0;
+    }];
 }
 
 - (NSString *)titleForShippingType:(STPShippingType)type {

@@ -21,6 +21,7 @@
 #import "STPPaymentContextAmountModel.h"
 #import "STPDispatchFunctions.h"
 #import "STPShippingMethodsViewController.h"
+#import "STPAddCardViewController+Private.h"
 
 #define FAUXPAS_IGNORED_IN_METHOD(...)
 
@@ -407,6 +408,7 @@
             STPAddCardViewController *addCardViewController = [[STPAddCardViewController alloc] initWithConfiguration:self.configuration theme:self.theme];
             addCardViewController.delegate = self;
             addCardViewController.prefilledInformation = self.prefilledInformation;
+            addCardViewController.shippingAddress = self.shippingAddress;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addCardViewController];
             navigationController.navigationBar.stp_theme = self.theme;
             navigationController.modalPresentationStyle = self.modalPresentationStyle;

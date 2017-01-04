@@ -14,6 +14,7 @@
 #import "STPLocalizationUtils.h"
 #import "STPBundleLocator.h"
 #import "STPLocalizationUtils+STPTestAdditions.h"
+#import "STPAddCardViewController+Private.h"
 
 @interface STPAddCardViewControllerLocalizationTests : FBSnapshotTestCase
 
@@ -27,11 +28,11 @@
 
 @implementation STPAddCardViewControllerLocalizationTests
 
-//- (void)setUp {
-//    [super setUp];
-//
-//    self.recordMode = YES;
-//}
+- (void)setUp {
+    [super setUp];
+
+    self.recordMode = YES;
+}
 
 - (void)performSnapshotTestForLanguage:(NSString *)language {
     
@@ -46,6 +47,7 @@
     
     STPAddCardViewController *addCardVC = [[STPAddCardViewController alloc] initWithConfiguration:config
                                                                                             theme:[STPTheme defaultTheme]];
+    addCardVC.shippingAddress = [STPAddress new];
     
     UINavigationController *navController = [UINavigationController new];
     navController.view.frame = CGRectMake(0, 0, 320, 750);

@@ -10,6 +10,7 @@
 #import "STPPaymentMethodTuple.h"
 #import "STPPaymentConfiguration.h"
 #import "STPPaymentConfiguration+Private.h"
+#import "STPAddress.h"
 
 @protocol STPPaymentMethodsInternalViewControllerDelegate
 
@@ -24,6 +25,7 @@
 - (instancetype)initWithConfiguration:(STPPaymentConfiguration *)configuration
                                 theme:(STPTheme *)theme
                  prefilledInformation:(STPUserInformation *)prefilledInformation
+                      shippingAddress:(STPAddress *)shippingAddress
                    paymentMethodTuple:(STPPaymentMethodTuple *)tuple
                              delegate:(id<STPPaymentMethodsInternalViewControllerDelegate>)delegate;
 
