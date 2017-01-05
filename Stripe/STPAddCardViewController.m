@@ -128,10 +128,10 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     addressHeaderView.title = STPLocalizedString(@"Billing Address", @"Title for billing address entry section");
     NSString *buttonTitle = STPLocalizedString(@"Use Shipping Address", @"Button to fill billing address from shipping address");
     [addressHeaderView.button setTitle:buttonTitle
-                       forState:UIControlStateNormal];
+                              forState:UIControlStateNormal];
     [addressHeaderView.button addTarget:self
-                          action:@selector(useShippingAddress:)
-                forControlEvents:UIControlEventTouchUpInside];
+                                 action:@selector(useShippingAddress:)
+                       forControlEvents:UIControlEventTouchUpInside];
     _addressHeaderView = addressHeaderView;
     STPSectionHeaderView *cardHeaderView = [STPSectionHeaderView new];
     cardHeaderView.theme = self.theme;

@@ -143,7 +143,7 @@
 }
 
 - (STPAddress *)address {
-    if (self.addressLine1 || self.addressLine2 || self.addressZip || self.addressCity || self.addressState || self.addressCountry) {
+    if (self.name || self.addressLine1 || self.addressLine2 || self.addressZip || self.addressCity || self.addressState || self.addressCountry) {
         STPAddress *address = [STPAddress new];
         address.name = self.name;
         address.line1 = self.addressLine1;
