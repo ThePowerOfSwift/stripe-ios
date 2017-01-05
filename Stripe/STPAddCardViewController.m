@@ -690,7 +690,7 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     NSInteger numberOfRows = [self tableView:tableView numberOfRowsInSection:section];
     if (section == STPPaymentCardEmailSection) {
         return 0.01f;
-    } else if (section == STPPaymentCardBillingAddressSection) {
+    } else if (section == STPPaymentCardBillingAddressSection && numberOfRows != 0) {
         [self updateAddressHeaderView];
         return [self.addressHeaderView sizeThatFits:fittingSize].height;
     } else if (section == STPPaymentCardNumberSection) {
