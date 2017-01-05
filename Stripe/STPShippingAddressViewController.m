@@ -46,7 +46,7 @@
 @implementation STPShippingAddressViewController
 
 - (instancetype)init {
-    return [self initWithConfiguration:[STPPaymentConfiguration sharedConfiguration] theme:[STPTheme defaultTheme] currency:nil shippingAddress:nil billingAddress:nil selectedShippingMethod:nil prefilledInformation:nil];
+    return [self initWithConfiguration:[STPPaymentConfiguration sharedConfiguration] theme:[STPTheme defaultTheme] currency:nil shippingAddress:nil selectedShippingMethod:nil prefilledInformation:nil];
 }
 
 - (instancetype)initWithPaymentContext:(STPPaymentContext *)paymentContext {
@@ -60,7 +60,6 @@
                                                                        theme:paymentContext.theme
                                                                     currency:paymentContext.paymentCurrency
                                                              shippingAddress:paymentContext.shippingAddress
-                                                              billingAddress:billingAddress
                                                       selectedShippingMethod:paymentContext.selectedShippingMethod
                                                         prefilledInformation:paymentContext.prefilledInformation];
     instance.delegate = paymentContext;
@@ -71,7 +70,6 @@
                                 theme:(STPTheme *)theme
                              currency:(NSString *)currency
                       shippingAddress:(STPAddress *)shippingAddress
-                       billingAddress:(STPAddress *)billingAddress
                selectedShippingMethod:(PKShippingMethod *)selectedShippingMethod
                  prefilledInformation:(STPUserInformation *)prefilledInformation {
     self = [super initWithNibName:nil bundle:nil];
@@ -80,7 +78,7 @@
         _currency = currency ?: @"usd";
         _theme = theme;
         _selectedShippingMethod = selectedShippingMethod;
-        _billingAddress = billingAddress;
+        _billingAddress = prefilledInformation.billingAddress;
         _hasUsedBillingAddress = NO;
         _addressViewModel = [[STPAddressViewModel alloc] initWithRequiredShippingFields:configuration.requiredShippingAddressFields];
         _addressViewModel.delegate = self;

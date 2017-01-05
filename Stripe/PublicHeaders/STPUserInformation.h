@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STPAddress.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The user's phone number. When set, this property will automatically strip out any non-numeric characters from the string you specify.
  */
 @property(nonatomic, copy, nullable)NSString *phone;
+
+/**
+ *  The user's billing address. When set, the user will have the option to fill their shipping address using this address.
+ */
+@property(nonatomic, nullable)STPAddress *billingAddress;
 
 @end
 

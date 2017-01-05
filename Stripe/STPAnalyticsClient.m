@@ -80,7 +80,7 @@ static BOOL STPAnalyticsCollectionDisabled = NO;
                                                           [client setApiUsage:[client.apiUsage setByAddingObject:NSStringFromClass([STPPaymentMethodsViewController class])]];
                                                       } error:nil];
 
-        [STPShippingAddressViewController stp_aspect_hookSelector:@selector(initWithConfiguration:theme:currency:shippingAddress:billingAddress:selectedShippingMethod:prefilledInformation:)
+        [STPShippingAddressViewController stp_aspect_hookSelector:@selector(initWithConfiguration:theme:currency:shippingAddress:selectedShippingMethod:prefilledInformation:)
                                                       withOptions:STPAspectPositionAfter
                                                        usingBlock:^{
                                                            STPAnalyticsClient *client = [self sharedClient];
