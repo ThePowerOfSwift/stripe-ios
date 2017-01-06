@@ -171,7 +171,9 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     paymentCell.paymentField.delegate = self;
     self.paymentCell = paymentCell;
 
-    self.addressViewModel.address = self.prefilledInformation.billingAddress;
+    if (self.prefilledInformation.billingAddress != nil) {
+        self.addressViewModel.address = self.prefilledInformation.billingAddress;
+    }
     self.addressViewModel.previousField = paymentCell;
     
     self.rememberMeCell = [[STPSwitchTableViewCell alloc] init];
