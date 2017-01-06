@@ -26,11 +26,11 @@
 
 @implementation STPShippingAddressViewControllerLocalizationTests
 
-- (void)setUp {
-    [super setUp];
-
-    self.recordMode = YES;
-}
+//- (void)setUp {
+//    [super setUp];
+//
+//    self.recordMode = YES;
+//}
 
 - (void)performSnapshotTestForLanguage:(NSString *)language shippingType:(STPShippingType)shippingType contact:(BOOL)contact {
 
@@ -46,14 +46,15 @@
     config.shippingType = shippingType;
 
     [STPLocalizationUtils overrideLanguageTo:language];
+    STPUserInformation *info = [STPUserInformation new];
+    info.billingAddress = [STPAddress new];
 
     STPShippingAddressViewController *shippingVC = [[STPShippingAddressViewController alloc] initWithConfiguration:config
                                                                                                              theme:[STPTheme defaultTheme]
                                                                                                           currency:nil
                                                                                                    shippingAddress:nil
-                                                                                                    billingAddress:[STPAddress new]
                                                                                             selectedShippingMethod:nil
-                                                                                              prefilledInformation:nil];
+                                                                                              prefilledInformation:info];
 
     UINavigationController *navController = [UINavigationController new];
     navController.view.frame = CGRectMake(0, 0, 320, 750);

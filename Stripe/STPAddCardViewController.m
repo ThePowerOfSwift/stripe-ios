@@ -128,8 +128,7 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     addressHeaderView.title = STPLocalizedString(@"Billing Address", @"Title for billing address entry section");
     addressHeaderView.buttonTitle = STPLocalizedString(@"Use Shipping Address", @"Button to fill billing address from shipping address");
     addressHeaderView.shortButtonTitle = STPLocalizedString(@"Use Shipping", @"Button to fill billing address from shipping address. This should be a shorter variant of Use Shipping Address, or the same translation if no shorter variant exists.");
-    [addressHeaderView.button addTarget:self
-                                 action:@selector(useShippingAddress:)
+    [addressHeaderView.button addTarget:self action:@selector(useShippingAddress:)
                        forControlEvents:UIControlEventTouchUpInside];
     _addressHeaderView = addressHeaderView;
     STPSectionHeaderView *cardHeaderView = [STPSectionHeaderView new];
@@ -203,7 +202,7 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     tableView.delegate = self;
     [self updateAppearance];
     [self updateAddressHeaderView];
-    
+
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)]];
 
     [self.checkoutAPIClient.bootstrapPromise onCompletion:^(__unused id value, __unused NSError *error) {
@@ -692,10 +691,10 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     NSInteger numberOfRows = [self tableView:tableView numberOfRowsInSection:section];
     if (section == STPPaymentCardEmailSection) {
         return 0.01f;
-    } else if (section == STPPaymentCardBillingAddressSection && numberOfRows != 0) {
-        return [self.addressHeaderView sizeThatFits:fittingSize].height;
     } else if (section == STPPaymentCardNumberSection) {
         return [self.cardHeaderView sizeThatFits:fittingSize].height;
+    } else if (section == STPPaymentCardBillingAddressSection && numberOfRows != 0) {
+        return [self.addressHeaderView sizeThatFits:fittingSize].height;
     } else if (section == STPPaymentCardRememberMeSection || numberOfRows != 0) {
         return tableView.sectionHeaderHeight;
     }

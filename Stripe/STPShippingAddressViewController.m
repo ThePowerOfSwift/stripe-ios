@@ -108,8 +108,7 @@
         headerView.title = STPLocalizedString(@"Shipping Address", @"Title for shipping address entry section");
         headerView.buttonTitle = STPLocalizedString(@"Use Billing Address", @"Button to fill shipping address from billing address");
         headerView.shortButtonTitle = STPLocalizedString(@"Use Billing", @"Button to fill shipping address from billing address. This should be a shorter variant of Use Billing Address, or the same translation if no shorter variant exists.");
-        [headerView.button addTarget:self
-                              action:@selector(useBillingAddress:)
+        [headerView.button addTarget:self action:@selector(useBillingAddress:)
                     forControlEvents:UIControlEventTouchUpInside];
         _addressHeaderView = headerView;
 
@@ -400,6 +399,7 @@
 }
 
 - (UIView *)tableView:(__unused UITableView *)tableView viewForHeaderInSection:(__unused NSInteger)section {
+    [self.addressHeaderView setNeedsLayout];
     return self.addressHeaderView;
 }
 
