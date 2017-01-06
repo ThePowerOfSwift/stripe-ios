@@ -56,12 +56,19 @@
         STPCard *card = (STPCard *)paymentMethod;
         billingAddress = [card address];
     }
+    STPUserInformation *prefilledInformation;
+    if (paymentContext.prefilledInformation != nil) {
+        prefilledInformation = [paymentContext.prefilledInformation copy];
+    } else {
+        prefilledInformation = [STPUserInformation new];
+    }
+    prefilledInformation.billingAddress = billingAddress;
     STPShippingAddressViewController *instance = [self initWithConfiguration:paymentContext.configuration
                                                                        theme:paymentContext.theme
                                                                     currency:paymentContext.paymentCurrency
                                                              shippingAddress:paymentContext.shippingAddress
                                                       selectedShippingMethod:paymentContext.selectedShippingMethod
-                                                        prefilledInformation:paymentContext.prefilledInformation];
+                                                        prefilledInformation:prefilledInformation];
     instance.delegate = paymentContext;
     return instance;
 }
