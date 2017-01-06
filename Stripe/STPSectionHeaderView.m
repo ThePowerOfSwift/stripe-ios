@@ -11,6 +11,7 @@
 @interface STPSectionHeaderView()
 @property(nonatomic, weak)UILabel *label;
 @property(nonatomic)UIEdgeInsets buttonInsets;
+@property(nonatomic)BOOL showingShortButtonTitle;
 @end
 
 @implementation STPSectionHeaderView
@@ -33,6 +34,7 @@
         _button = button;
         _theme = [STPTheme defaultTheme];
         _buttonInsets = UIEdgeInsetsMake(5, 5, 5, 15);
+        _showingShortButtonTitle = NO;
         self.backgroundColor = [UIColor clearColor];
         [self updateAppearance];
     }
@@ -66,9 +68,17 @@
     [self setNeedsLayout];
 }
 
-- (void)setButtonTitle:(NSString *)buttonTitle {
-    _buttonTitle = buttonTitle;
-    [self.button setTitle:buttonTitle forState:UIControlStateNormal];
+- (void)setShowingShortButtonTitle:(BOOL)showingShortButtonTitle {
+    BOOL previousValue = _showingShortButtonTitle;
+    _showingShortButtonTitle = showingShortButtonTitle;
+    if (previousValue == showingShortButtonTitle) {
+        return;
+    }
+    if (showingShortButtonTitle) {
+        [self.button setTitle:self.shortButtonTitle forState:UIControlStateNormal];
+    } else {
+        [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
+    }
 }
 
 - (void)layoutSubviews {
@@ -83,17 +93,6 @@
     }
 }
 
-//- (void)updateButtonTitle {
-//    CGFloat halfWidth = self.bounds.size.width/2;
-//    CGFloat normalHeight = [self heightForButtonText:self.buttonTitle width:halfWidth];
-//    CGFloat shortHeight = [self heightForButtonText:self.shortButtonTitle width:halfWidth];
-//    if (shortHeight < normalHeight) {
-//        [self.button setTitle:self.shortButtonTitle forState:UIControlStateNormal];
-//    } else {
-//        [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
-//    }
-//}
-
 - (CGFloat)heightThatFits:(CGSize)size {
     CGFloat labelPadding = 16;
     if (self.button.alpha == 0.f) {
@@ -102,15 +101,15 @@
     } else {
         CGSize halfSize = CGSizeMake(size.width/2, size.height);
         CGFloat labelHeight = [self.label sizeThatFits:halfSize].height + labelPadding;
+        CGFloat buttonHeight;
         CGFloat normalButtonHeight = [self heightForButtonText:self.buttonTitle width:halfSize.width];
         CGFloat shortButtonHeight = [self heightForButtonText:self.shortButtonTitle width:halfSize.width];
-        CGFloat buttonHeight;
         if (shortButtonHeight < normalButtonHeight) {
             buttonHeight = shortButtonHeight;
-            [self.button setTitle:self.shortButtonTitle forState:UIControlStateNormal];
+            self.showingShortButtonTitle = YES;
         } else {
             buttonHeight = normalButtonHeight;
-            [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
+            self.showingShortButtonTitle = NO;
         }
         return MAX(buttonHeight, labelHeight);
     }

@@ -26,11 +26,11 @@
 
 @implementation STPShippingAddressViewControllerLocalizationTests
 
-//- (void)setUp {
-//    [super setUp];
-//
-//    self.recordMode = YES;
-//}
+- (void)setUp {
+    [super setUp];
+
+    self.recordMode = YES;
+}
 
 - (void)performSnapshotTestForLanguage:(NSString *)language shippingType:(STPShippingType)shippingType contact:(BOOL)contact {
 
