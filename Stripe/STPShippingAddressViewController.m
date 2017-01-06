@@ -106,9 +106,8 @@
         STPSectionHeaderView *headerView = [STPSectionHeaderView new];
         headerView.theme = self.theme;
         headerView.title = STPLocalizedString(@"Shipping Address", @"Title for shipping address entry section");
-        NSString *buttonTitle = STPLocalizedString(@"Use Billing Address", @"Button to fill shipping address from billing address");
-        [headerView.button setTitle:buttonTitle
-                           forState:UIControlStateNormal];
+        headerView.buttonTitle = STPLocalizedString(@"Use Billing Address", @"Button to fill shipping address from billing address");
+        headerView.shortButtonTitle = STPLocalizedString(@"Use Billing", @"Button to fill shipping address from billing address. This should be a shorter variant of Use Billing Address, or the same translation if no shorter variant exists.");
         [headerView.button addTarget:self
                               action:@selector(useBillingAddress:)
                     forControlEvents:UIControlEventTouchUpInside];
@@ -168,6 +167,7 @@
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)]];
     [self updateAppearance];
     [self updateDoneButton];
+    [self updateAddressHeaderView];
 }
 
 - (void)endEditing {
@@ -395,13 +395,11 @@
 }
 
 - (CGFloat)tableView:(__unused UITableView *)tableView heightForHeaderInSection:(__unused NSInteger)section {
-    [self updateAddressHeaderView];
     CGSize size = [self.addressHeaderView sizeThatFits:CGSizeMake(self.view.bounds.size.width, CGFLOAT_MAX)];
     return size.height;
 }
 
 - (UIView *)tableView:(__unused UITableView *)tableView viewForHeaderInSection:(__unused NSInteger)section {
-    [self updateAddressHeaderView];
     return self.addressHeaderView;
 }
 
@@ -418,6 +416,7 @@
     [UIView animateWithDuration:0.2f animations:^{
         sender.alpha = 0;
     }];
+    [self updateAddressHeaderView];
 }
 
 - (NSString *)titleForShippingType:(STPShippingType)type {

@@ -66,6 +66,11 @@
     [self setNeedsLayout];
 }
 
+- (void)setButtonTitle:(NSString *)buttonTitle {
+    _buttonTitle = buttonTitle;
+    [self.button setTitle:buttonTitle forState:UIControlStateNormal];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (self.button.alpha == 0.f) {
@@ -73,8 +78,19 @@
     } else {
         CGFloat halfWidth = self.bounds.size.width/2;
         CGFloat heightThatFits = [self heightThatFits:self.bounds.size];
+        [self updateButtonTitle:halfWidth];
         self.label.frame = CGRectMake(0, 0, halfWidth, heightThatFits);
         self.button.frame = CGRectMake(halfWidth, 0, halfWidth, heightThatFits);
+    }
+}
+
+- (void)updateButtonTitle:(CGFloat)width {
+    CGFloat normalHeight = [self heightForButtonText:self.buttonTitle width:width];
+    CGFloat shortHeight = [self heightForButtonText:self.shortButtonTitle width:width];
+    if (shortHeight < normalHeight && self.button.titleLabel.text != self.shortButtonTitle) {
+        [self.button setTitle:self.shortButtonTitle forState:UIControlStateNormal];
+    } else if (shortHeight >= normalHeight && self.button.titleLabel.text != self.buttonTitle) {
+        [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
     }
 }
 
@@ -86,17 +102,22 @@
     } else {
         CGSize halfSize = CGSizeMake(size.width/2, size.height);
         CGFloat labelHeight = [self.label sizeThatFits:halfSize].height + labelPadding;
-        NSDictionary *attributes = @{NSFontAttributeName: self.button.titleLabel.font};
-        UIEdgeInsets insets = self.buttonInsets;
-        CGSize buttonTextSize = CGSizeMake(halfSize.width - (insets.left + insets.right),
-                                           halfSize.height - (insets.top + insets.bottom));
-        CGSize buttonSize = [self.button.titleLabel.text boundingRectWithSize:buttonTextSize
-                                                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                                                   attributes:attributes
-                                                                      context:nil].size;
-        CGFloat buttonHeight = buttonSize.height + insets.top + insets.bottom;
+        CGFloat normalButtonHeight = [self heightForButtonText:self.buttonTitle width:halfSize.width];
+        CGFloat shortButtonHeight = [self heightForButtonText:self.shortButtonTitle width:halfSize.width];
+        CGFloat buttonHeight = MIN(normalButtonHeight, shortButtonHeight);
         return MAX(buttonHeight, labelHeight);
     }
+}
+
+- (CGFloat)heightForButtonText:(NSString *)text width:(CGFloat)width {
+    UIEdgeInsets insets = self.buttonInsets;
+    CGSize textSize = CGSizeMake(width - (insets.left + insets.right), CGFLOAT_MAX);
+    NSDictionary *attributes = @{NSFontAttributeName: self.button.titleLabel.font};
+    CGSize buttonSize = [text boundingRectWithSize:textSize
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:attributes
+                                           context:nil].size;
+    return buttonSize.height + insets.top + insets.bottom;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {

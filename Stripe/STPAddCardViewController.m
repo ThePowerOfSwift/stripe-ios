@@ -126,9 +126,8 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     STPSectionHeaderView *addressHeaderView = [STPSectionHeaderView new];
     addressHeaderView.theme = self.theme;
     addressHeaderView.title = STPLocalizedString(@"Billing Address", @"Title for billing address entry section");
-    NSString *buttonTitle = STPLocalizedString(@"Use Shipping Address", @"Button to fill billing address from shipping address");
-    [addressHeaderView.button setTitle:buttonTitle
-                              forState:UIControlStateNormal];
+    addressHeaderView.buttonTitle = STPLocalizedString(@"Use Shipping Address", @"Button to fill billing address from shipping address");
+    addressHeaderView.shortButtonTitle = STPLocalizedString(@"Use Shipping", @"Button to fill billing address from shipping address. This should be a shorter variant of Use Shipping Address, or the same translation if no shorter variant exists.");
     [addressHeaderView.button addTarget:self
                                  action:@selector(useShippingAddress:)
                        forControlEvents:UIControlEventTouchUpInside];
@@ -201,6 +200,7 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     tableView.dataSource = self;
     tableView.delegate = self;
     [self updateAppearance];
+    [self updateAddressHeaderView];
     
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)]];
 
@@ -691,7 +691,6 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     if (section == STPPaymentCardEmailSection) {
         return 0.01f;
     } else if (section == STPPaymentCardBillingAddressSection && numberOfRows != 0) {
-        [self updateAddressHeaderView];
         return [self.addressHeaderView sizeThatFits:fittingSize].height;
     } else if (section == STPPaymentCardNumberSection) {
         return [self.cardHeaderView sizeThatFits:fittingSize].height;
@@ -710,7 +709,6 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
         if (section == STPPaymentCardNumberSection) {
             return self.cardHeaderView;
         } else if (section == STPPaymentCardBillingAddressSection) {
-            [self updateAddressHeaderView];
             return self.addressHeaderView;
         }
     }
@@ -739,6 +737,7 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     [UIView animateWithDuration:0.2f animations:^{
         sender.alpha = 0;
     }];
+    [self updateAddressHeaderView];
 }
 
 @end
