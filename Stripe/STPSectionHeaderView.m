@@ -86,7 +86,6 @@
     } else {
         CGSize halfSize = CGSizeMake(size.width/2, size.height);
         CGFloat labelHeight = [self.label sizeThatFits:halfSize].height + labelPadding;
-        // TODO: necessary?
         CGFloat buttonHeight = [self heightForButtonText:self.button.titleLabel.text width:halfSize.width];
         return MAX(buttonHeight, labelHeight);
     }
