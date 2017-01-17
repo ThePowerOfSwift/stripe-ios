@@ -399,7 +399,6 @@
 }
 
 - (UIView *)tableView:(__unused UITableView *)tableView viewForHeaderInSection:(__unused NSInteger)section {
-    [self.addressHeaderView setNeedsLayout];
     return self.addressHeaderView;
 }
 

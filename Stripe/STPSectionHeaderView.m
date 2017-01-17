@@ -34,7 +34,6 @@
         _button = button;
         _theme = [STPTheme defaultTheme];
         _buttonInsets = UIEdgeInsetsMake(5, 5, 5, 15);
-        _showingShortButtonTitle = NO;
         self.backgroundColor = [UIColor clearColor];
         [self updateAppearance];
     }
@@ -51,6 +50,7 @@
     self.label.textColor = self.theme.secondaryForegroundColor;
     self.button.titleLabel.font = self.theme.smallFont;
     self.button.tintColor = self.theme.accentColor;
+    self.showingShortButtonTitle = NO;
 }
 
 - (void)setTitle:(NSString *)title {
@@ -69,11 +69,7 @@
 }
 
 - (void)setShowingShortButtonTitle:(BOOL)showingShortButtonTitle {
-    BOOL previousValue = _showingShortButtonTitle;
     _showingShortButtonTitle = showingShortButtonTitle;
-    if (previousValue == showingShortButtonTitle) {
-        return;
-    }
     if (showingShortButtonTitle) {
         [self.button setTitle:self.shortButtonTitle forState:UIControlStateNormal];
     } else {
