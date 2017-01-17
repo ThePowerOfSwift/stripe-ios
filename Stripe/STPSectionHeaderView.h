@@ -13,8 +13,6 @@
 
 @property(nonatomic, nonnull)STPTheme *theme;
 @property(nonatomic, nullable)NSString *title;
-@property(nonatomic, nullable)NSString *buttonTitle;
-@property(nonatomic, nullable)NSString *shortButtonTitle;
 @property(nonatomic, nullable, weak)UIButton *button;
 
 @end

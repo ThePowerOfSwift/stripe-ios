@@ -126,8 +126,14 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     STPSectionHeaderView *addressHeaderView = [STPSectionHeaderView new];
     addressHeaderView.theme = self.theme;
     addressHeaderView.title = STPLocalizedString(@"Billing Address", @"Title for billing address entry section");
-    addressHeaderView.buttonTitle = STPLocalizedString(@"Use Shipping Address", @"Button to fill billing address from shipping address");
-    addressHeaderView.shortButtonTitle = STPLocalizedString(@"Use Shipping", @"Button to fill billing address from shipping address. This should be a shorter variant of Use Shipping Address, or the same translation if no shorter variant exists.");
+    NSString *headerTitle;
+    switch (self.configuration.shippingType) {
+        case STPShippingTypeShipping:
+            headerTitle = STPLocalizedString(@"Use Shipping", @"Button to fill billing address from shipping address");
+        case STPShippingTypeDelivery:
+            headerTitle = STPLocalizedString(@"Use Delivery", @"Button to fill billing address from delivery address");
+    }
+    [addressHeaderView.button setTitle:headerTitle forState:UIControlStateNormal];
     [addressHeaderView.button addTarget:self action:@selector(useShippingAddress:)
                        forControlEvents:UIControlEventTouchUpInside];
     _addressHeaderView = addressHeaderView;
@@ -726,7 +732,8 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
 }
 
 - (void)updateAddressHeaderView {
-    BOOL buttonVisible = (!self.addressViewModel.isValid && self.shippingAddress != nil && !self.hasUsedShippingAddress);
+    BOOL needsAddress = self.configuration.requiredBillingAddressFields != STPBillingAddressFieldsNone && !self.addressViewModel.isValid;
+    BOOL buttonVisible = (needsAddress && self.shippingAddress != nil && !self.hasUsedShippingAddress);
     self.addressHeaderView.button.alpha = buttonVisible ? 1 : 0;
     [self.addressHeaderView setNeedsLayout];
 }

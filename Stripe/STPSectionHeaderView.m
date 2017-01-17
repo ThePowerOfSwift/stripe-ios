@@ -11,7 +11,6 @@
 @interface STPSectionHeaderView()
 @property(nonatomic, weak)UILabel *label;
 @property(nonatomic)UIEdgeInsets buttonInsets;
-@property(nonatomic)BOOL showingShortButtonTitle;
 @end
 
 @implementation STPSectionHeaderView
@@ -50,7 +49,6 @@
     self.label.textColor = self.theme.secondaryForegroundColor;
     self.button.titleLabel.font = self.theme.smallFont;
     self.button.tintColor = self.theme.accentColor;
-    self.showingShortButtonTitle = NO;
 }
 
 - (void)setTitle:(NSString *)title {
@@ -66,15 +64,6 @@
         self.label.attributedText = nil;
     }
     [self setNeedsLayout];
-}
-
-- (void)setShowingShortButtonTitle:(BOOL)showingShortButtonTitle {
-    _showingShortButtonTitle = showingShortButtonTitle;
-    if (showingShortButtonTitle) {
-        [self.button setTitle:self.shortButtonTitle forState:UIControlStateNormal];
-    } else {
-        [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
-    }
 }
 
 - (void)layoutSubviews {
@@ -97,16 +86,8 @@
     } else {
         CGSize halfSize = CGSizeMake(size.width/2, size.height);
         CGFloat labelHeight = [self.label sizeThatFits:halfSize].height + labelPadding;
-        CGFloat buttonHeight;
-        CGFloat normalButtonHeight = [self heightForButtonText:self.buttonTitle width:halfSize.width];
-        CGFloat shortButtonHeight = [self heightForButtonText:self.shortButtonTitle width:halfSize.width];
-        if (shortButtonHeight < normalButtonHeight) {
-            buttonHeight = shortButtonHeight;
-            self.showingShortButtonTitle = YES;
-        } else {
-            buttonHeight = normalButtonHeight;
-            self.showingShortButtonTitle = NO;
-        }
+        // TODO: necessary?
+        CGFloat buttonHeight = [self heightForButtonText:self.button.titleLabel.text width:halfSize.width];
         return MAX(buttonHeight, labelHeight);
     }
 }

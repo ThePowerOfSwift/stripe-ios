@@ -139,17 +139,11 @@
 /* Error message when failing to type in SMS code for Remember me too many times. */
 "Too many incorrect attempts" = "Too many incorrect attempts";
 
-/* Button to fill shipping address from billing address. This should be a shorter variant of Use Billing Address, or the same translation if no shorter variant exists. */
+/* Button to fill shipping address from billing address. */
 "Use Billing" = "Use Billing";
 
-/* Button to fill shipping address from billing address */
-"Use Billing Address" = "Use Billing Address";
-
-/* Button to fill billing address from shipping address. This should be a shorter variant of Use Shipping Address, or the same translation if no shorter variant exists. */
+/* Button to fill billing address from shipping address. */
 "Use Shipping" = "Use Shipping";
-
-/* Button to fill billing address from shipping address */
-"Use Shipping Address" = "Use Shipping Address";
 
 /* Title for SMS verification code screen */
 "Verification Code" = "Verification Code";

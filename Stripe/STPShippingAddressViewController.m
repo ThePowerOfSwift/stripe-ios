@@ -105,9 +105,9 @@
         }
         STPSectionHeaderView *headerView = [STPSectionHeaderView new];
         headerView.theme = self.theme;
-        headerView.title = STPLocalizedString(@"Shipping Address", @"Title for shipping address entry section");
-        headerView.buttonTitle = STPLocalizedString(@"Use Billing Address", @"Button to fill shipping address from billing address");
-        headerView.shortButtonTitle = STPLocalizedString(@"Use Billing", @"Button to fill shipping address from billing address. This should be a shorter variant of Use Billing Address, or the same translation if no shorter variant exists.");
+        headerView.title = [self headerTitleForShippingType:self.configuration.shippingType];
+        [headerView.button setTitle:STPLocalizedString(@"Use Billing", @"Button to fill shipping address from billing address")
+                           forState:UIControlStateNormal];
         [headerView.button addTarget:self action:@selector(useBillingAddress:)
                     forControlEvents:UIControlEventTouchUpInside];
         _addressHeaderView = headerView;
@@ -403,7 +403,8 @@
 }
 
 - (void)updateAddressHeaderView {
-    BOOL buttonVisible = (!self.addressViewModel.isValid && self.billingAddress != nil && !self.hasUsedBillingAddress);
+    BOOL needsAddress = self.configuration.requiredShippingAddressFields & PKAddressFieldPostalAddress && !self.addressViewModel.isValid;
+    BOOL buttonVisible = (needsAddress && self.billingAddress != nil && !self.hasUsedBillingAddress);
     self.addressHeaderView.button.alpha = buttonVisible ? 1 : 0;
     [self.addressHeaderView setNeedsLayout];
 }
@@ -426,6 +427,22 @@
                 break;
             case STPShippingTypeDelivery:
                 return STPLocalizedString(@"Delivery", @"Title for delivery info form");
+                break;
+        }
+    }
+    else {
+        return STPLocalizedString(@"Contact", @"Title for contact info form");
+    }
+}
+
+- (NSString *)headerTitleForShippingType:(STPShippingType)type {
+     if (self.configuration.requiredShippingAddressFields & PKAddressFieldPostalAddress) {
+        switch (type) {
+            case STPShippingTypeShipping:
+                return STPLocalizedString(@"Shipping Address", @"Title for shipping address entry section");
+                break;
+            case STPShippingTypeDelivery:
+                return STPLocalizedString(@"Delivery Address", @"Title for delivery address entry section");
                 break;
         }
     }

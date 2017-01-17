@@ -106,6 +106,9 @@
 /* Title for shipping info form */
 "Shipping" = "Spedizione";
 
+/* Title for shipping address entry section */
+"Shipping Address" = "Indirizzo di spedizione";
+
 /* Label for shipping method form */
 "Shipping Method" = "Metodo di spedizione";
 
@@ -135,6 +138,12 @@
 
 /* Error message when failing to type in SMS code for Remember me too many times. */
 "Too many incorrect attempts" = "Troppi tentativi falliti";
+
+/* Button to fill shipping address from billing address. */
+"Use Billing" = "Usa indirizzo di fatturazione";
+
+/* Button to fill billing address from shipping address. */
+"Use Shipping" = "Usa indirizzo di spedizione";
 
 /* Title for SMS verification code screen */
 "Verification Code" = "Codice di verifica";
