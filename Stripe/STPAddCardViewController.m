@@ -129,9 +129,9 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     NSString *headerTitle;
     switch (self.configuration.shippingType) {
         case STPShippingTypeShipping:
-            headerTitle = STPLocalizedString(@"Use Shipping", @"Button to fill billing address from shipping address");
+            headerTitle = STPLocalizedString(@"Use Shipping", @"Button to fill billing address from shipping address.");
         case STPShippingTypeDelivery:
-            headerTitle = STPLocalizedString(@"Use Delivery", @"Button to fill billing address from delivery address");
+            headerTitle = STPLocalizedString(@"Use Delivery", @"Button to fill billing address from delivery address.");
     }
     [addressHeaderView.button setTitle:headerTitle forState:UIControlStateNormal];
     [addressHeaderView.button addTarget:self action:@selector(useShippingAddress:)

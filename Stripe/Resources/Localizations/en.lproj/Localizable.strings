@@ -43,6 +43,9 @@
 /* Title for delivery info form */
 "Delivery" = "Delivery";
 
+/* Title for delivery address entry section */
+"Delivery Address" = "Delivery Address";
+
 /* Button on SMS verification screen if the user did not receive the SMS code. */
 "Didn't receive the code?" = "Didn't receive the code?";
 
@@ -141,6 +144,9 @@
 
 /* Button to fill shipping address from billing address. */
 "Use Billing" = "Use Billing";
+
+/* Button to fill billing address from delivery address. */
+"Use Delivery" = "Use Delivery";
 
 /* Button to fill billing address from shipping address. */
 "Use Shipping" = "Use Shipping";
