@@ -58,6 +58,7 @@
     navController.view.frame = CGRectMake(0, 0, 320, addCardVC.tableView.contentSize.height);
 
     if (delivery) {
+        addCardVC.addressViewModel.addressFieldTableViewCountryCode = @"INVALID";
         FBSnapshotVerifyView(navController.view, @"delivery");
     } else {
         /**
