@@ -43,6 +43,9 @@
 /* Title for delivery info form */
 "Delivery" = "Levering";
 
+/* Title for delivery address entry section */
+"Delivery Address" = "Bezorgadres";
+
 /* Button on SMS verification screen if the user did not receive the SMS code. */
 "Didn't receive the code?" = "Code niet ontvangen?";
 
@@ -141,6 +144,9 @@
 
 /* Button to fill shipping address from billing address. */
 "Use Billing" = "Factureringsadres gebruiken";
+
+/* Button to fill billing address from delivery address */
+"Use Delivery" = "Bezorgadres gebruiken";
 
 /* Button to fill billing address from shipping address. */
 "Use Shipping" = "Verzendadres gebruiken";

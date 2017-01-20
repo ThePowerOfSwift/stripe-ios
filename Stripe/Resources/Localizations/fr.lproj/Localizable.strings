@@ -43,6 +43,9 @@
 /* Title for delivery info form */
 "Delivery" = "Livraison";
 
+/* Title for delivery address entry section */
+"Delivery Address" = "Adresse de livraison";
+
 /* Button on SMS verification screen if the user did not receive the SMS code. */
 "Didn't receive the code?" = "Code non reçu ?";
 
@@ -107,7 +110,7 @@
 "Shipping" = "Livraison";
 
 /* Title for shipping address entry section */
-"Shipping Address" = "Adresse de livraison";
+"Shipping Address" = "Adresse d’expédition";
 
 /* Label for shipping method form */
 "Shipping Method" = "Mode de livraison";
@@ -142,8 +145,11 @@
 /* Button to fill shipping address from billing address. */
 "Use Billing" = "Utiliser adr. facturation";
 
+/* Button to fill billing address from delivery address */
+"Use Delivery" = "Utiliser adr. livraison";
+
 /* Button to fill billing address from shipping address. */
-"Use Shipping" = "Utiliser adr. livraison";
+"Use Shipping" = "Utiliser adr. expédition";
 
 /* Title for SMS verification code screen */
 "Verification Code" = "Code de vérification";
